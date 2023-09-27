@@ -15,36 +15,36 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 # Using PRAW to scrape
 
-#Loading Reddit credentials
-def load_credentials():
-    '''
-    Loading reddit credentials from credentials.json file
+# #Loading Reddit credentials
+# def load_credentials():
+#     '''
+#     Loading reddit credentials from credentials.json file
     
-    Returns:
-        Dict: A dictionary with the 5 keys. Values contain required info to use PRAW.
+#     Returns:
+#         Dict: A dictionary with the 5 keys. Values contain required info to use PRAW.
     
-    '''
+#     '''
     
-    with open('credentials.json') as f:
-        data = json.load(f)
-    return data["reddit"]
+#     with open('credentials.json') as f:
+#         data = json.load(f)
+#     return data["reddit"]
 
-credentials = load_credentials()
-client_id = credentials['client_id']
-client_secret = credentials['client_secret']
-username = credentials['username']
-password = credentials['password']
-user_agent = credentials['user_agent']
+# credentials = load_credentials()
+# client_id = credentials['client_id']
+# client_secret = credentials['client_secret']
+# username = credentials['username']
+# password = credentials['password']
+# user_agent = credentials['user_agent']
 
 
-# Authenticating with Reddit API
-reddit = praw.Reddit(
-    client_id=client_id,
-    client_secret=client_secret,
-    username=username,
-    password=password,
-    user_agent=user_agent
-)
+# # Authenticating with Reddit API
+# reddit = praw.Reddit(
+#     client_id=client_id,
+#     client_secret=client_secret,
+#     username=username,
+#     password=password,
+#     user_agent=user_agent
+# )
 
 
 

@@ -15,35 +15,48 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 # Using PRAW to scrape
 
-#Loading Reddit credentials
-def load_credentials():
-    with open('credentials.json') as f:
-        data = json.load(f)
-    return data["reddit"]
+# #Loading Reddit credentials
+# def load_credentials():
+#     '''
+#     Loading reddit credentials from credentials.json file
+    
+#     Returns:
+#         Dict: A dictionary with the 5 keys. Values contain required info to use PRAW.
+    
+#     '''
+    
+#     with open('credentials.json') as f:
+#         data = json.load(f)
+#     return data["reddit"]
 
-credentials = load_credentials()
-client_id = credentials['client_id']
-client_secret = credentials['client_secret']
-username = credentials['username']
-password = credentials['password']
-user_agent = credentials['user_agent']
+# credentials = load_credentials()
+# client_id = credentials['client_id']
+# client_secret = credentials['client_secret']
+# username = credentials['username']
+# password = credentials['password']
+# user_agent = credentials['user_agent']
 
 
-# Authenticating with Reddit API
-reddit = praw.Reddit(
-    client_id=client_id,
-    client_secret=client_secret,
-    username=username,
-    password=password,
-    user_agent=user_agent
-)
+# # Authenticating with Reddit API
+# reddit = praw.Reddit(
+#     client_id=client_id,
+#     client_secret=client_secret,
+#     username=username,
+#     password=password,
+#     user_agent=user_agent
+# )
 
 
 
 #Defining getting top comment from post
 def get_top_comments(post):
     '''
+    Retrieves the top 5 comments from the reddit post object.
+    Args:
+        post: (iterator of reddit.subreddit.new)
 
+    Returns:
+        list: A list of the top 5 comments in the reddit post
     
     '''
     top_comments=[]
@@ -63,14 +76,16 @@ def get_subreddit_posts(subreddit_name, post_limit=1000):
      number of upvotes, downvotes, if author is a premium reddit user, no of comments, subreddit name,
      url suffix and awards received on post.
     
-     :param subreddit_name: The name of the subreddit without prefix 'r/'
-     :type subreddit_name: string
+     Args:
+         param subreddit_name: The name of the subreddit without prefix 'r/'
+         type subreddit_name: string
     
-     :param post_limit: Number of posts to scrape. Function scrapes just slightly over the limit.
-     :type post_limit: int
+         param post_limit: Number of posts to scrape. Function scrapes just slightly over the limit.
+         type post_limit: int
     
-     :return: A list of dictionaries with the post data
-     :rtype: list of dicts
+     Returns:
+         A list of dictionaries with the post data
+         rtype: list of dicts
     """
     posts_list = []
     
@@ -99,6 +114,18 @@ def get_subreddit_posts(subreddit_name, post_limit=1000):
 
 
 def extract_tags(row):
+    '''
+    Extracts the tag, eg "[P]" from a string object.
+    
+    Args:
+        param row: The string to extract the tag from
+        type row: string
+    
+    Returns:
+        The matched tag if found, else a blank.
+        rtype: string or NA
+    
+    '''
     match = re.search(r'\[.*?\]',row)
     if match:
         return match.group(0)
@@ -109,7 +136,14 @@ def extract_tags(row):
 
 def tokenize_text(text):
     '''
-    
+    Converts the input text to lowercase, removes punctuation, tokenizes the text,
+    removes stop words and custom words, and then applies lemmatization.
+
+    Args:
+        text (str): The input text to be processed.
+
+    Returns:
+        list: A list of lemmatized tokens from the input text.
     '''
     text = text.lower()
     text = "".join([char for char in text if char not in string.punctuation])
@@ -123,6 +157,19 @@ def tokenize_text(text):
 
 
 def get_top_keywords(tfidf_matrix, clusters, feature_names, n_terms):
+    '''
+    Prints the top n terms in each cluster from the TF-IDF matrix.
+
+    Args:
+        tfidf_matrix (scipy.sparse.csr_matrix): The TF-IDF matrix.
+        clusters (numpy.ndarray): An array indicating the cluster to which each row of the TF-IDF matrix belongs.
+        feature_names (list of str): The names of the features corresponding to the columns of the TF-IDF matrix.
+        n_terms (int): The number of top terms to print for each cluster.
+
+    Returns:
+        None
+    '''
+    
     df = pd.DataFrame(tfidf_matrix.todense()).groupby(clusters).mean()
     for i, r in df.iterrows():
         print('\nCluster {}'.format(i))
@@ -159,7 +206,14 @@ def extract_top_words_tfidf(df, text_column, feature_variable, top_n=20):
 
 def OHE_catcolumn(df, col):
     '''
-    
+    Converts a categorical column in a DataFrame into one-hot encoded columns.
+
+    Args:
+        df (pandas DataFrame): The DataFrame containing the categorical data.
+        col (str): The name of the categorical column to be one-hot encoded.
+
+    Returns:
+        pandas DataFrame: A DataFrame of one-hot encoded columns.
     '''
     X_OHE = pd.get_dummies(df[col],drop_first=True)
     return X_OHE
