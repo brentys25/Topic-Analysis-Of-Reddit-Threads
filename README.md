@@ -7,7 +7,22 @@ The project involved scraping approximately 1000 Reddit posts using the PRAW API
 
 # Methods
 
-The project first used the PRAW API to scrape 1000 posts from r/statistics and r/machine learning. After cleaning the scraped posts, some simple visualization was done using matplotlib and seaborn on the dataset, before finally tokenizing the contents of each post, and then using KMeans clustering to group the posts. Each cluster was then analyzed to identify distributions of r/statistics vs r/machinelearning posts within each cluster.
+The project first used the PRAW API to scrape 1000 posts from r/statistics and r/machine learning. After cleaning the scraped posts, some simple visualization was done using matplotlib and seaborn on the dataset, before finally tokenizing the contents (using TfidfVectorizer) of each post, and then using KMeans clustering to group the posts. Each cluster was then analyzed to identify distributions of r/statistics vs r/machinelearning posts within each cluster.
+
+The following models were also trained for topic classification:
+| **Model**               | **P1 best score** | **P2 best score** | **P3 best score** |
+|-------------------------|-------------------|-------------------|-------------------|
+| LogisticRegression      | 0.960             | 0.982             | 0.985             |
+| SVC                     | 0.958             | 0.980             | 0.979             |
+| DecisionTreeClassifier  | 0.871             | 0.964             | 0.962             |
+| RandomForestClassifier  | 0.958             | 0.977             | 0.977             |
+| AdaBoostClassifier      | 0.950             | 0.980             | 0.980             |
+| GradientBoostClassifier | 0.948             | 0.968             | 0.969             |
+
+
+
+*In P1, the model was trained on solely the tokenized titles, contents and comments. P2 was trained on the dataset in P1 + tags, and P3 was trained on dataset in P2 + number of comments & upvotes
+
 
 ### Distinct topics identified between r/statistics and r/machinelearning
 
