@@ -31,6 +31,7 @@ The project first used the PRAW API to scrape 1000 posts from r/statistics and r
 | 33          | 0 - 0<br>1 - 27  | r/machinelearning     | dashboard,embeddings,else,source,ai,3d,shape,model,api,openai                                   |
 | 35          | 0 - 1<br>1 - 23  | r/machinelearning     | synthesizer,singing,eterministic,texttoimage,generative,survey,latent,stable,model,diffusion    |
 | 36          | 0 - 0<br>1 - 53  | r/machinelearning     | finetuning,computer,tuning,state,new,reasoning,instruction,large,model,language                 |
+
 *In the value counts column, posts from r/statistics are labelled 0, and posts from r/machinelearning are labelled 1.
 
 ### Similar topics between r/statistics and r/machinelearning
